@@ -1,0 +1,54 @@
+import React from 'react';
+import styled from 'styled-components';
+
+import colors from './colors';
+
+export default function Header(){
+    return(
+        <TopBar>            
+            <div>
+                <img src='/images/logo.png' alt='logo' />
+                <h1>Book-Store</h1>
+            </div>        
+            <button>
+                <img src='/images/cart.png' alt='carrinho' />
+            </button>
+        </TopBar>
+    );
+}
+
+const TopBar = styled.header`
+    width: 100vw;
+    height: 100px;
+    background: ${colors.black};
+    display: flex;
+    align-items: center;
+    
+    div{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        h1{
+        color: white;
+        font-size: 30px;
+        }
+        img{
+            height: 80%;
+        }
+    }
+    
+    button{
+        height: 50%;
+        border-radius: 50%;
+        padding: 6px;
+        background: ${colors.blue};
+        box-shadow: 0 0 1px 1px ${colors.grey};
+        margin-right: 30px;
+        img{
+            height: 100%;
+        }
+    }
+`;
