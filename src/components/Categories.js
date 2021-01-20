@@ -97,7 +97,7 @@ const Container = styled.section`
     }
 
     @media (max-width: 900px) {
-        ul{
+        div{
             width: 100%;
         }
     }
