@@ -6,41 +6,44 @@ import {IoIosArrowForward} from 'react-icons/io';
 import colors from './colors';
 
 export default function Categories(){
-    const [first, setFirst] = useState('flex');
-    const [second, setSecond] = useState('none');
-
+    const itens = [{name: 'ROMANCE'},
+                    {name: 'FICÇÃO'},
+                    {name: 'TERROR'},
+                    {name: 'POLICIAL'},
+                    {name: 'DRAMA'},
+                    {name: 'ANIME'},
+                    {name: 'FAROESTE'},
+                    {name: 'CULINARIA'},
+                    {name: 'TECNOLOGIA'},
+                    {name: 'DIREITO'}];
     
-    function previous(){
-        setFirst('flex');
-        setSecond('none');
+    const [categories, setCategories] = useState(itens);
+
+    function nextCategorie(){
+        const newOrder = categories.slice(1,categories.length);
+        newOrder.push(categories[0]);
+        setCategories(newOrder);  
     }
-    function next(){
-        setFirst('none');
-        setSecond('flex');
-    }    
+
+    function previousCategorie(){
+        const newOrder = categories.slice(0,(categories.length)-1);
+        newOrder.unshift(categories[(categories.length)-1]);
+        setCategories(newOrder);      
+    }
 
     return(
-        <Container first={first} second ={second}>
+        <Container>
             <div>
-                <IoIosArrowBack className='arrow' onClick={previous}/>
-                <ul className='first'>
-                    <li>ROMANCE</li>
-                    <li>FICÇÃO</li>
-                    <li>TERROR</li>
-                    <li>POLICIAL</li>
-                    <li>DRAMA</li>
-                </ul>
-                <ul className='second'>
-                    <li>ANIME</li>
-                    <li>FAROESTE</li>
-                    <li>CULINARIA</li>
-                    <li>TECNOLOGIA</li>
-                    <li>DIREITO</li>
-                </ul>
-                
-                <IoIosArrowForward className='arrow' onClick={next}/>
-            </div>
-            
+                <IoIosArrowBack className='arrow' onClick={previousCategorie}/>
+                <ul>
+                    {categories.map( (c,i) => {                        
+                        return(
+                            <li key={i}>{c.name}</li>
+                        );                        
+                    })}
+                </ul>                
+                <IoIosArrowForward className='arrow' onClick={nextCategorie}/>
+            </div>            
         </Container>
     );
 }
@@ -53,7 +56,7 @@ const Container = styled.section`
 
     div{        
         width: 80%;
-        padding: 10px 20px;
+        padding: 10px 10px;
         border-radius: 5px;
         background: ${colors.black};
         margin-bottom: 10px;
@@ -62,43 +65,39 @@ const Container = styled.section`
 
         ul{
             overflow: hidden;
-            transition: all 5000ms linear;
-        }
-
-        .first{
-            display: ${(props) => props.first};
-        }
-        .second{
-            display: ${(props) => props.second};
-        }
-        
+            display: flex;
+        }        
         li{
-            width: 150px;
+            flex-shrink: 0;
+            width: 120px;
+            height: 40px;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
             padding: 10px;
             border: 1px solid ${colors.grey};
             margin: 0 5px;
             border-radius: 5px;
             cursor: pointer;
-        }  
+        } 
         li:hover,.arrow:hover{
             background: ${colors.grey};
         }
         .arrow{
-            width: 50px;
-            height: 90%;
+            flex-shrink: 0;
+            margin: 0 3px;
+            width: 40px;
+            height: 40px;
             font-size: 40px;
             border-radius: 50%;
             color: white;
             border: 1px solid ${colors.grey};
             cursor: pointer;
-        }  
+        }
     }
 
     @media (max-width: 900px) {
-        ul{
+        div{
             width: 100%;
         }
     }
