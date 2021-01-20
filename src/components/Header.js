@@ -23,6 +23,8 @@ const TopBar = styled.header`
     background: ${colors.black};
     display: flex;
     align-items: center;
+    position: fixed;
+    top: 0;
     
     div{
         width: 100%;
