@@ -12,7 +12,7 @@ export default function CartProducts(props){
 
     return(
         <Container>
-            {(cartItems.lenght) 
+            {(!cartItems.lenght) 
             ? <CartComponent content={{name: "Senhor dos ALALALALLALALneis", price: 10, stock: 2}}/> 
             :
             <>

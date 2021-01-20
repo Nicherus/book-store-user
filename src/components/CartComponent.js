@@ -70,7 +70,6 @@ const ProductContent = styled.div`
 
 const QuantityContainer = styled.div`
     display: flex;
-    justify-content: center;
     align-items: center;
     text-align: center; 
     button {

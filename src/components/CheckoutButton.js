@@ -1,12 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory, useParams } from 'react-router-dom';
+
 
 import colors from './colors';
 
 export default function CheckoutButton(props){
     const {content} = props;
+    const history = useHistory();
+
+    function checkOut(){
+        history.push('/checkout');
+    }
     return(
-        <Container>            
+        <Container onClick={checkOut}>            
             {content}
         </Container>
     );

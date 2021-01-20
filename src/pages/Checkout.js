@@ -13,7 +13,6 @@ export default function Home(){
             <Header />
             <CartBody>
                 <Button content={"TOTAL"} />
-                <CartProducts/>
                 <CheckoutButton content={"FECHAR PEDIDO"} />
             </CartBody>
         </>
