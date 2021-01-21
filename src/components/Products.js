@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import {IoIosArrowBack} from 'react-icons/io';
 import {IoIosArrowForward} from 'react-icons/io';
 
+import CategorieContext from '../contexts/CategorieContext';
 import colors from './colors';
 
 export default function Products(){
-    const itens = [{url: 'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://livrariaconcreta.com.br/wp-content/uploads/2017/01/livro-vermelho_andrew-lang_CAPA_FINAL_CURVAS-01.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://livrariaconcreta.com.br/wp-content/uploads/2017/01/livro-vermelho_andrew-lang_CAPA_FINAL_CURVAS-01.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    {url: 'https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg', name: 'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-    ];
-    
-    const [books, setBooks] = useState(itens);
+    const { categorieId } = useContext(CategorieContext);
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        if (categorieId !== 0){
+            const request = axios.get(`https://api-book-store.herokuapp.com/products/category/${categorieId}`);
+            request.then( resp => {
+                console.log(resp.data.products[0].photos[0].link);
+                setBooks(resp.data.products);
+                setLoading(false);
+            }).catch( error => {
+                console.log(error);
+            });
+        }
+    },[categorieId]);    
 
     function nextBook(){
         const newOrder = books.slice(1,books.length);
@@ -34,17 +42,24 @@ export default function Products(){
         <Container>
             <div>
                 <IoIosArrowBack className='arrow' onClick={previousBook}/>
-                <ul>
-                    {books.map( (c,i) => {                        
-                        return(
-                            <li key={i}>
-                                <img src={c.url} />
-                                <h2>{c.name}</h2>
-                                <h2>{c.price}</h2>
-                            </li>
-                        );                        
-                    })}
-                </ul>                
+                {loading ? 
+                    <Load>
+                        <img src='/images/load.gif' alt='load' />
+                        <h2>Loading...</h2>
+                    </Load>
+                    :
+                    <ul>
+                        {books.map( (b,i) => {                        
+                            return(
+                                <li key={i}>
+                                    <img src={b.photos[0].link} />
+                                    <h2>{b.name}</h2>
+                                    <h2>R$ {b.price}</h2>
+                                </li>
+                            );                        
+                        })}
+                    </ul>   
+                }             
                 <IoIosArrowForward className='arrow' onClick={nextBook}/>
             </div>            
         </Container>
@@ -111,7 +126,7 @@ const Container = styled.section`
         }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 800px) {
         div{
             width: 100%;
             li {
@@ -120,5 +135,14 @@ const Container = styled.section`
         }
         }
         
+    }
+`;
+
+const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: white;
+    img{
+        border-radius: 10px;
     }
 `;

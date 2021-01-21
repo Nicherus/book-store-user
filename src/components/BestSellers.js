@@ -1,35 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import colors from './colors';
 
 export default function BestSellers(){
+    const items = [{img:'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
+                    {img:'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
+                    {img:'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
+                    {img:'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'}
+                ];
+    const [bestSellers, setBestSellers] = useState(items);
+    const [loading, setLoading] = useState(false);
+
     return(
         <Container>
             <section>
                 <h1>MAIS VENDIDOS</h1>
             </section>
             <List>
-                <li>
-                    <img src="https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg" />
-                    <h2>Harry Potter e a Criança Amaldiçoada</h2>
-                    <h2>R$ 00,00</h2>
-                </li>
-                <li>
-                    <img src="https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png" />
-                    <h2>Harry Potter e a Criança Amaldiçoada</h2>
-                    <h2>R$ 00,00</h2>
-                </li>
-                <li>
-                    <img src="https://livrariaconcreta.com.br/wp-content/uploads/2017/01/livro-vermelho_andrew-lang_CAPA_FINAL_CURVAS-01.jpg" />
-                    <h2>Harry Potter e a Criança Amaldiçoada</h2>
-                    <h2>R$ 00,00</h2>
-                </li>
-                <li>
-                    <img src="https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg" />
-                    <h2>Harry Potter e a Criança Amaldiçoada</h2>
-                    <h2>R$ 00,00</h2>
-                </li>               
+                {loading ? 
+                    <Load>
+                        <img src='/images/load.gif' alt='load' />
+                        <h2>Loading...</h2>
+                    </Load>
+                    :
+                    <>
+                    {bestSellers.map( (b,i) => {
+                        return(
+                            <li key={i}>
+                                <img src={b.img} />
+                                <h2>{b.name}</h2>
+                                <h2>{b.price}</h2>
+                            </li>
+                        );
+                    })} 
+                    </>
+                }            
             </List>
         </Container>
     );
@@ -77,12 +83,12 @@ const List = styled.ul`
     flex-wrap: wrap;
 
     li{
-        width: 20%;
+        width: 200px;
+        height: 300px;
         margin: 0 10px;
         padding: 10px;
         border-radius: 5px;
         cursor: pointer;
-
         img{
             width:100%;
             height: 80%;
@@ -108,5 +114,16 @@ const List = styled.ul`
             width: 40%;
             height: 300px ;
         }
+    }
+`;
+
+const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    img{
+        border-radius: 10px;
+        width: 100%;
     }
 `;
