@@ -7,15 +7,18 @@ import {IoIosArrowForward} from 'react-icons/io';
 import CategorieContext from '../contexts/CategorieContext';
 import colors from './colors';
 
-export default function Categories(props){
-    const {categorieId,setCategorieId} = useContext(CategorieContext);  
+export default function Categories(){
+    const { categorieId, setCategorieId } = useContext(CategorieContext);  
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() =>{
+        setLoading(true);
         const request = axios.get('https://api-book-store.herokuapp.com/categories');
         request.then( resp => {
             setCategories(resp.data);
             setCategorieId(resp.data[0].id);
+            setLoading(false);
         }).catch( error => {
             console.log(error);
         });
@@ -41,17 +44,24 @@ export default function Categories(props){
         <Container>
             <div>
                 <IoIosArrowBack className='arrow' onClick={previousCategorie}/>
-                <ul>
-                    {categories.map((c,i) => {         
-                        return(
-                            <li key={c.id} 
-                                className={categorieId === c.id ? 'selected' : undefined}
-                                onClick={() => selectCategorie(c.id)}>
-                                {c.name}
-                            </li>
-                        );                        
-                    })}
-                </ul>                
+                {loading ? 
+                    <Load>
+                        <img src='/images/load.gif' alt='load' />
+                        <h2>Loading...</h2>
+                    </Load>
+                    :
+                    <ul>
+                        {categories.map((c,i) => {         
+                            return(
+                                <li key={c.id} 
+                                    className={categorieId === c.id ? 'selected' : undefined}
+                                    onClick={() => selectCategorie(c.id)}>
+                                    {c.name}
+                                </li>
+                            );                        
+                        })}
+                    </ul> 
+                }               
                 <IoIosArrowForward className='arrow' onClick={nextCategorie}/>
             </div>            
         </Container>
@@ -71,6 +81,7 @@ const Container = styled.section`
         background: ${colors.black};
         margin-bottom: 10px;
         justify-content: space-between;
+        align-items: center;
         display: flex;
 
         ul{
@@ -106,9 +117,20 @@ const Container = styled.section`
         }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 800px) {
         div{
             width: 100%;
         }
+    }
+`;
+
+const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    img{
+        border-radius: 10px;
+        width: 10%;
     }
 `;
