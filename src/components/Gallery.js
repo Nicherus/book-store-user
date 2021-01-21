@@ -17,6 +17,7 @@ export default function Gallery(){
     ];
     
     const [photos, setPhotos] = useState(itens);
+    const [bigImage, setBigImage] = useState('https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg');
 
     function nextPhoto(){
         const newOrder = photos.slice(1,photos.length);
@@ -29,8 +30,11 @@ export default function Gallery(){
         newOrder.unshift(photos[(photos.length)-1]);
         setPhotos(newOrder);      
     }
-    
-    
+
+    function selectImage(url){
+        setBigImage(url);
+    }
+        
     return(
         <Container>
             <div>
@@ -39,13 +43,14 @@ export default function Gallery(){
                     {photos.map( (c,i) => {                        
                         return(
                             <li key={i}>
-                                <img src={c.url} />
+                                <img src={c.url} onClick={() => selectImage(c.url)}/>
                             </li>
                         );                        
                     })}
                 </ul>                
                 <IoIosArrowForward className='arrow' onClick={nextPhoto}/>
             </div>
+            <img src={bigImage} />
         </Container>
         
     );
@@ -56,9 +61,13 @@ const Container = styled.section`
     border-radius: 2px;
     height: calc(100vh - 140px);
     background: ${colors.black};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     div{        
         width: 100%;
+        height: 25%;
         padding: 10px 10px;
         border-radius: 5px;
         background: ${colors.black};
@@ -70,30 +79,21 @@ const Container = styled.section`
         ul{
             overflow: hidden;
             display: flex;
-            height: 150px;
+            width: 100%;
+            height: 100%;
         }  
 
         li{
             flex-shrink: 0;
-            width: 20%;
-            margin: 0 10px;
+            width: 15%;
+            margin: 0 5px;
             padding: 10px;
             border-radius: 5px;
-            color: white;
             cursor: pointer;
             img{
                 width: 100%;
                 height: 100%;
                 margin-bottom: 10px;
-            }
-            h2{
-                max-width: 20ch;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                color: white;
-                font-size: 16px;
-                margin-bottom: 5px;
             }
         } 
         li:hover,.arrow:hover{
@@ -110,5 +110,10 @@ const Container = styled.section`
             border: 1px solid ${colors.grey};
             cursor: pointer;
         }
+    }
+    img{
+        height: 70%;
+        width: auto;
+    }
 `;
 
