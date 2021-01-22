@@ -8,6 +8,7 @@ import ChoosePaymentMethod from './pages/ChoosePaymentMethod';
 import { CartProvider } from './contexts/CartContext';
 import { UserProvider } from "./contexts/UserContext";
 import Checkout from './pages/Checkout';
+import Success from './pages/Success';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Router>
           <Switch>
             <CartProvider>
+              <Route path='/success' component={Success} />
               <Route path='/cart' component={Cart} />
               <Route path='/checkout' component={Checkout} />
               <Route path='/paymentMethod' component={ChoosePaymentMethod} />
