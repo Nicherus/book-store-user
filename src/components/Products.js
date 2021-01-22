@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import {IoIosArrowBack} from 'react-icons/io';
@@ -11,13 +12,13 @@ export default function Products(){
     const { categorieId } = useContext(CategorieContext);
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         setLoading(true);
         if (categorieId !== 0){
             const request = axios.get(`https://api-book-store.herokuapp.com/products/category/${categorieId}`);
             request.then( resp => {
-                console.log(resp.data.products[0].photos[0].link);
                 setBooks(resp.data.products);
                 setLoading(false);
             }).catch( error => {
@@ -38,6 +39,10 @@ export default function Products(){
         setBooks(newOrder);      
     }
 
+    function selectProduct(id){
+        history.push(`/product/${id}`);
+    }
+
     return(
         <Container>
             <div>
@@ -49,9 +54,9 @@ export default function Products(){
                     </Load>
                     :
                     <ul>
-                        {books.map( (b,i) => {                        
+                        {books.map( b => {                        
                             return(
-                                <li key={i}>
+                                <li key={b.id} onClick={() => selectProduct(b.id)}>
                                     <img src={b.photos[0].link} />
                                     <h2>{b.name}</h2>
                                     <h2>R$ {b.price}</h2>
