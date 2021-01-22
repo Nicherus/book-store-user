@@ -68,7 +68,7 @@ export default function Information(props){
 const Container = styled.section`
     width: 40%;
     border-radius: 2px;
-    height: calc(100vh - 140px);
+    height: 100%;
     background: ${colors.black};
     display: flex;
     flex-direction: column;
@@ -123,7 +123,11 @@ const Container = styled.section`
         background-color: rgba(255,0,0,0.1);
         color: ${colors.black};
     }
-    
+
+    @media (max-width: 800px) {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 `;
 
 const Load = styled.div`
