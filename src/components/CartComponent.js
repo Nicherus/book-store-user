@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 
 import colors from './colors';
+import { CartContext } from '../contexts/CartContext';
 
 export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
     const {content} = props;
-
+    const {cartItems, setCartItems} = useContext(CartContext);
+    console.log(cartItems);
+    
     function addBook(){
         const newqtt = qtt + 1;
         setQtt(newqtt);
@@ -15,7 +18,7 @@ export default function CartComponent(props){
     function subtractBook(){
         const newqtt = qtt - 1;
         if(newqtt == 0){
-            console.log("tira do carrinho");
+            
         }
         setQtt(newqtt);
     }

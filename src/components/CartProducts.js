@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import styled from 'styled-components';
 
 import colors from './colors';
@@ -6,21 +6,21 @@ import CartComponent from '../components/CartComponent';
 import { CartContext } from '../contexts/CartContext';
 
 export default function CartProducts(props){
-    const {content} = props;
     const {cartItems, setCartItems} = useContext(CartContext);
-    console.log(cartItems.lenght);
+    let key = 0;
+    console.log(cartItems.length);
+    const {content} = props;
+
 
     return(
         <Container>
-            {(!cartItems.lenght) 
+            {(!cartItems.length) 
             ? <CartComponent content={{name: "Senhor dos ALALALALLALALneis", price: 10, stock: 2}}/> 
             :
             <>
-                <CartComponent content={{name: "Senhor dos Aneis", price: 10, stock: 2}}/>
-                <CartComponent content={{name: "Senhor dos Aneis", price: 10, stock: 2}}/>
-                <CartComponent content={{name: "Senhor dos Aneis", price: 10, stock: 2}}/>
-                <CartComponent content={{name: "Senhor dos Aneis", price: 10, stock: 2}}/>
-                <CartComponent content={{name: "Senhor dos Aneis", price: 10, stock: 2}}/>
+                {cartItems.map(i => 
+                    <CartComponent content={{name: i.name, price: i.price, stock: i.stock, qtt: i.qtt}}/> 
+                )}
             </>
             }
         </Container>

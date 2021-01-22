@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
+import Spinner from "./Spinner";
 
 
 import colors from './colors';
 
 export default function CheckoutButton(props){
-    const {content} = props;
+    const {content, loading} = props;
     const history = useHistory();
 
     function checkOut(){
@@ -14,7 +15,7 @@ export default function CheckoutButton(props){
     }
     return(
         <Container onClick={checkOut}>            
-            {content}
+            {loading ? <Spinner /> : <p>{content}</p>}
         </Container>
     );
 }
