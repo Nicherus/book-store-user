@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import {IoIosArrowBack} from 'react-icons/io';
@@ -11,13 +12,13 @@ export default function Products(){
     const { categorieId } = useContext(CategorieContext);
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         setLoading(true);
         if (categorieId !== 0){
             const request = axios.get(`https://api-book-store.herokuapp.com/products/category/${categorieId}`);
             request.then( resp => {
-                console.log(resp.data.products[0].photos[0].link);
                 setBooks(resp.data.products);
                 setLoading(false);
             }).catch( error => {
@@ -38,6 +39,10 @@ export default function Products(){
         setBooks(newOrder);      
     }
 
+    function selectProduct(id){
+        history.push(`/product/${id}`);
+    }
+
     return(
         <Container>
             <div>
@@ -49,15 +54,19 @@ export default function Products(){
                     </Load>
                     :
                     <ul>
-                        {books.map( (b,i) => {                        
-                            return(
-                                <li key={i}>
-                                    <img src={b.photos[0].link} />
-                                    <h2>{b.name}</h2>
-                                    <h2>R$ {b.price}</h2>
-                                </li>
-                            );                        
-                        })}
+                        {books.length !== 0 ?
+                            books.map( b => {                        
+                                const price = ((b.price)/100).toFixed(2);
+                                return(
+                                    <li key={b.id} onClick={() => selectProduct(b.id)}>
+                                        <img src={b.photos[0].link} />
+                                        <h2>{b.name}</h2>
+                                        <h2>R$ {price}</h2>
+                                    </li>
+                                );                        
+                            }) : 
+                            <h2>Nenhum livro encontrado</h2>   
+                        }
                     </ul>   
                 }             
                 <IoIosArrowForward className='arrow' onClick={nextBook}/>
@@ -85,31 +94,31 @@ const Container = styled.section`
         ul{
             overflow: hidden;
             display: flex;
-        }  
-
-        li{
-            flex-shrink: 0;
-            width: 20%;
-            margin: 0 10px;
-            padding: 10px;
-            border-radius: 5px;
             color: white;
-            cursor: pointer;
-            img{
-                width: 100%;
-                height: 80%;
-                margin-bottom: 10px;
+            
+            li{
+                flex-shrink: 0;
+                width: 20%;
+                margin: 0 10px;
+                padding: 10px;
+                border-radius: 5px;            
+                cursor: pointer;
+                img{
+                    width: 100%;
+                    height: 80%;
+                    margin-bottom: 10px;
+                }
+                h2{
+                    max-width: 20ch;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                }
             }
-            h2{
-                max-width: 20ch;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                color: white;
-                font-size: 16px;
-                margin-bottom: 5px;
-            }
-        } 
+        }  
+         
         li:hover,.arrow:hover{
             background: ${colors.grey};
         }

@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 
 import colors from './colors';
-import { CartContext } from '../contexts/CartContext';
+import CartContext from '../contexts/CartContext';
 
 export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
