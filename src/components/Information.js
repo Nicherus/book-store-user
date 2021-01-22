@@ -6,11 +6,6 @@ import colors from './colors';
 export default function Information(props){
     const {product, addProduct} = props;
     const price = ((product.price)/100).toFixed(2);
-    const [enable, setEnable] = useState(true);
-
-    if (product.amountStock === 0){
-        setEnable(false);
-    }
 
     return(
         <Container>
@@ -43,14 +38,17 @@ export default function Information(props){
             </div>  
             <div>
                 <label>Preço:</label>
-                <h2>R$ {price}</h2>
+                {product.amountStock === 0 ? 
+                    <h2>INDISPONÍVEL</h2>:
+                    <h2>{price}</h2>
+                }                 
             </div>
             <div>
                 <label>Disponível:</label>
                 <h2>{product.amountStock}</h2>
             </div>
-            <button className={!enable ? 'disabled' : undefined} 
-                    disabled={!enable} 
+            <button className={product.amountStock === 0 ? 'disabled' : undefined} 
+                    disabled={product.amountStock === 0 ? true : false} 
                     onClick={addProduct}>
                 Adicionar ao carrinho
             </button> 
