@@ -13,6 +13,7 @@ export default function Products(){
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
+    console.log(categorieId);
 
     useEffect(() => {
         setLoading(true);
@@ -25,7 +26,7 @@ export default function Products(){
                 console.log(error);
             });
         }
-    },[categorieId]);    
+    },[categorieId]);  
 
     function nextBook(){
         const newOrder = books.slice(1,books.length);
@@ -59,7 +60,7 @@ export default function Products(){
                                 const price = ((b.price)/100).toFixed(2);
                                 return(
                                     <li key={b.id} onClick={() => selectProduct(b.id)}>
-                                        <img src={b.photos[0].link} />
+                                        <img src={b.photos[0] !== undefined ? b.photos[0].link: null} />
                                         <h2>{b.name}</h2>
                                         <h2>R$ {price}</h2>
                                     </li>
