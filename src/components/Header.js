@@ -1,9 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colors from './colors';
 
 export default function Header(){
+    const history = useHistory();
+    
+    function goCart(){
+        history.push('/cart');
+    }
+    
     return(
         <TopBar>            
             <div>
@@ -11,7 +18,7 @@ export default function Header(){
                 <h1>Book-Store</h1>
             </div>        
             <button>
-                <img src='/images/cart.png' alt='carrinho' />
+                <img src='/images/cart.png' alt='carrinho' onClick={goCart}/>
             </button>
         </TopBar>
     );
