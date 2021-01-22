@@ -113,6 +113,10 @@ const Container = styled.section`
         height: 70%;
         width: auto;
     }
+    @media (max-width: 800px) {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 `;
 
 const Load = styled.div`

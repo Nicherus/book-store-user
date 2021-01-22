@@ -33,7 +33,8 @@ export default function Product(){
         const newCartItems = cartItems;
         newCartItems.push(product);
         setCartItems(newCartItems);
-        history.push('/cart');
+        alert('Produto adicionado ao carrinho!')
+        history.push('/');
     }
 
     return(
@@ -57,4 +58,9 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 800px) {
+        align-items: center;
+        flex-direction: column;
+    }
 `;
