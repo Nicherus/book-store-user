@@ -8,7 +8,7 @@ export default function App() {
   return (
     <Router>
         <Switch>
-            <Route path='/product' component={Product} />
+            <Route path='/product/:id' component={Product} />
             <Route path='/' component={Home} />
         </Switch>
     </Router>

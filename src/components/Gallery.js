@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {IoIosArrowBack} from 'react-icons/io';
 import {IoIosArrowForward} from 'react-icons/io';
 
 import colors from './colors';
 
-export default function Gallery(){
-    const itens = [{url: 'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg'},
-    {url: 'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png'},
-    {url: 'https://livrariaconcreta.com.br/wp-content/uploads/2017/01/livro-vermelho_andrew-lang_CAPA_FINAL_CURVAS-01.jpg'},
-    {url: 'https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg'},
-    {url: 'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg'},
-    {url: 'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png'},
-    {url: 'https://livrariaconcreta.com.br/wp-content/uploads/2017/01/livro-vermelho_andrew-lang_CAPA_FINAL_CURVAS-01.jpg'},
-    {url: 'https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg'},
-    ];
-    
-    const [photos, setPhotos] = useState(itens);
-    const [bigImage, setBigImage] = useState('https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg');
+export default function Gallery(props){
+    const {photos, setPhotos, bigPhoto, setBigPhoto} = props; 
+    console.log(photos);     
 
     function nextPhoto(){
         const newOrder = photos.slice(1,photos.length);
@@ -31,26 +21,35 @@ export default function Gallery(){
         setPhotos(newOrder);      
     }
 
-    function selectImage(url){
-        setBigImage(url);
+    function selectImage(link){
+        setBigPhoto(link);
     }
         
     return(
         <Container>
-            <div>
-                <IoIosArrowBack className='arrow' onClick={previousPhoto}/>
-                <ul>
-                    {photos.map( (c,i) => {                        
-                        return(
-                            <li key={i}>
-                                <img src={c.url} onClick={() => selectImage(c.url)}/>
-                            </li>
-                        );                        
-                    })}
-                </ul>                
-                <IoIosArrowForward className='arrow' onClick={nextPhoto}/>
-            </div>
-            <img src={bigImage} />
+            {photos.length !== 0 ? 
+            <>
+                <div>
+                    <IoIosArrowBack className='arrow' onClick={previousPhoto}/>
+                    <ul>
+                        {photos.map( p => {                        
+                            return(
+                                <li key={p.id}>
+                                    <img src={p.link} onClick={() => selectImage(p.link)}/>
+                                </li>
+                            );                        
+                        })}
+                    </ul>                
+                    <IoIosArrowForward className='arrow' onClick={nextPhoto}/>
+                </div>
+                <img src={bigPhoto} /> 
+            </>
+            :
+            <Load>
+                <img src='/images/load.gif' alt='load' />
+                <h2>Loading...</h2>
+            </Load>
+            }            
         </Container>
         
     );
@@ -114,6 +113,15 @@ const Container = styled.section`
     img{
         height: 70%;
         width: auto;
+    }
+`;
+
+const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: white;
+    img{
+        border-radius: 10px;
     }
 `;
 

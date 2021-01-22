@@ -3,42 +3,54 @@ import styled from 'styled-components';
 
 import colors from './colors';
 
-export default function Information(){
+export default function Information(props){
+    const {product} = props;
+    const price = ((product.price)/100).toFixed(2);
     return(
         <Container>
+            {Object.keys(product).length !== 0 ? 
+            <>
+            
             <div>
                 <label>Título:</label>
-                <h2>Harry Potter e a Pedra filosofal</h2>
+                <h2>{product.name}</h2>
             </div>  
             <div>
                 <label>Autor:</label>
-                <h2>JK Rolling</h2>
+                <h2>{product.author}</h2>
             </div> 
             <div>
                 <label>Ano:</label>
-                <h2>1997</h2>
+                <h2>{product.year}</h2>
             </div> 
             <div>
                 <label>Páginas:</label>
-                <h2>300</h2>
+                <h2>{product.pages}</h2>
             </div>
             <div>
                 <label>Gênero:</label>
-                <h2>Ficção</h2>
+                <h2>{product.categories[0].name}</h2>
             </div>             
             <div className='synopsis'>
                 <label>Sinopse:</label>
-                <h2>Harry Potter é um garoto cujos pais, feiticeiros, foram assassinados por um poderosíssimo bruxo quando ele ainda era um bebê. Ele foi levado, então, para a casa dos tios que nada tinham a ver com o sobrenatural. Pelo contrário. Até os 10 anos, Harry foi uma espécie de gata borralheira: maltratado pelos tios, herdava roupas velhas do primo gorducho, tinha óculos remendados e era tratado como um estorvo. No dia de seu aniversário de 11 anos, entretanto, ele parece deslizar por</h2>
+                <h2>{product.synopsis}</h2>
             </div>  
             <div>
                 <label>Preço:</label>
-                <h2>R$ 00,00</h2>
+                <h2>R$ {price}</h2>
             </div>
             <div>
                 <label>Disponível:</label>
-                <h2>5</h2>
+                <h2>{product.amountStock}</h2>
             </div>
-            <button>Adicionar ao carrinho</button>        
+            <button>Adicionar ao carrinho</button> 
+            </>
+            :
+            <Load>
+                <img src='/images/load.gif' alt='load' />
+                <h2>Loading...</h2>
+            </Load>
+            }          
         </Container>
     );
 }
@@ -98,4 +110,13 @@ const Container = styled.section`
         color: ${colors.black};
     }
     
+`;
+
+const Load = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: white;
+    img{
+        border-radius: 10px;
+    }
 `;
