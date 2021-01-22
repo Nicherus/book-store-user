@@ -8,10 +8,6 @@ export default function Information(props){
     const price = ((product.price)/100).toFixed(2);
     const [enable, setEnable] = useState(true);
 
-    if (product.amountStock === 0){
-        setEnable(false);
-    }
-
     return(
         <Container>
             {Object.keys(product).length !== 0 ? 
