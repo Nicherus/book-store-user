@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import colors from './colors';
 
 export default function BestSellers(){
-    const items = [{img:'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-                    {img:'https://opiniaobomvaleapena.com.br/imagens/livro-harry-potter-e-a-crianca-amaldicoada-livro-8-capa-dura.png', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-                    {img:'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'},
-                    {img:'https://3.bp.blogspot.com/-9hh9HbTfdzk/WswCXBhQaKI/AAAAAAAAEKk/xQrqEcQAcFkw4-mADEW-u5aLhJBHgW4DwCLcBGAs/s1600/Conhe%25C3%25A7a%2Bos%2B4%2BTipos%2Bde%2BCapas%2Bde%2BLivro%2Bque%2Bos%2BDesigners%2BNormalmente%2BDesenvolvem%2B-%2BArquiteto%2BVers%25C3%25A1til%2B-%2BRafael%2BNascimento%2B%25281%2529.jpg', name:'Harry Potter e a Criança Amaldiçoada', price:'R$ 00,00'}
-                ];
-    const [bestSellers, setBestSellers] = useState(items);
+    const [bestSellers, setBestSellers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
+
+    useEffect(() =>{
+        setLoading(true);
+        const request = axios.get('https://api-book-store.herokuapp.com/products/top-selling');
+        request.then( resp => {
+            setBestSellers(resp.data);
+            setLoading(false);
+        }).catch( error => {
+            console.log(error);
+        });
+    },[]);
+
+    function selectProduct(id){
+        history.push(`/product/${id}`);
+    }
 
     return(
         <Container>
@@ -26,11 +39,12 @@ export default function BestSellers(){
                     :
                     <>
                     {bestSellers.map( (b,i) => {
+                        const price = ((b.price)/100).toFixed(2);
                         return(
-                            <li key={i}>
-                                <img src={b.img} />
+                            <li key={b.id} onClick={() => selectProduct(b.id)}>
+                                <img src={b.photos[0].link} />
                                 <h2>{b.name}</h2>
-                                <h2>{b.price}</h2>
+                                <h2>R$ {price}</h2>
                             </li>
                         );
                     })} 
