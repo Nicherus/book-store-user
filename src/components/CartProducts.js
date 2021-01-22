@@ -7,10 +7,7 @@ import CartContext from '../contexts/CartContext';
 
 export default function CartProducts(props){
     const {cartItems, setCartItems} = useContext(CartContext);
-    let key = 0;
-    console.log(cartItems);
     const {content} = props;
-
 
     return(
         <Container>

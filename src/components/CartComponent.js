@@ -8,7 +8,6 @@ export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
     const {content} = props;
     const {cartItems, setCartItems} = useContext(CartContext);
-    console.log(cartItems);
     
     function addBook(){
         const newqtt = qtt + 1;

@@ -7,21 +7,27 @@ import colors from '../components/colors';
 
 import Header from '../components/Header';
 import UserContext from "../contexts/UserContext";
+import CartContext from '../contexts/CartContext';
+import { FiChevronsRight } from "react-icons/fi";
 
 
 export default function ChoosePaymentMethod(){
     const { user, setUser } = useContext(UserContext);
+    const { cartItems, setCartItems } = useContext(CartContext);
+    const [billetChoice, setBilletChoice] = useState(false);
     const [paymentChoice, setPaymentChoice] = useState(false);
     const [creditCard, setCreditCard] = useState(false);
     const history = useHistory();
 
     function goToCreditCard(){
-        console.log(paymentChoice);
         setPaymentChoice(true);
     }
+    function goToBillet(){
+        setBilletChoice(true);
+    }
     function backToChoosePaymentMethod(){
-        console.log(paymentChoice);
         setPaymentChoice(false);
+        setBilletChoice(false);
     }
     function goBack(){
         history.push('/checkout');
@@ -38,14 +44,31 @@ export default function ChoosePaymentMethod(){
             email: user.email,
             cpf: user.cpf,
             creditCard};
-            console.log(body);
         axios.post('https://api-book-store.herokuapp.com/clients', body)
           .then(function (response) {
-            console.log(response);
-          }).catch((error) => console.log(error));
-
+                finish(response.data);
+          }).catch(() => {
+              alert("Preencha os dados corretamente!");
+              history.push('/checkout');
+          });
     }
-
+    function finish(data){
+        console.log(cartItems); 
+        const productData = cartItems.map( c => {
+            return ({productId:c.id, amount:c.amountStock});
+        })       
+        const body = {  clientId: data.id,
+                        productData,
+                        totalPrice: 0}
+        axios.post('https://api-book-store.herokuapp.com/orders', body)
+            .then(function (response) {
+                if(response.status === 201){
+                    history.push('/success');
+                }
+            }).catch(error => {
+                console.log(error);
+            });             
+    }
 
     return(
         <>
@@ -60,12 +83,22 @@ export default function ChoosePaymentMethod(){
                     <BackButton onClick={backToChoosePaymentMethod}>Voltar</BackButton>
                 </>
                 :
+                ( billetChoice ? 
+                <>
+                    <Text>O boleto será enviado para seu email!</Text> 
+                    <Button onClick={goToViewOrder}>Concluir compra</Button>
+                    <BackButton onClick={backToChoosePaymentMethod}>Voltar</BackButton>
+                </> 
+                :
                 <>
                     <Text>Escolha seu método de pagamento</Text>
-                    <Button onClick={() => console.log("IJAOISJDAOIDJADOIAJDOIASJDAOIDJ")}>Boleto</Button>
+                    <Button onClick={goToBillet}>Boleto</Button>
                     <Button onClick={goToCreditCard}>Cartao de Credito</Button>
                     <BackButton onClick={goBack}>Voltar</BackButton>
-                </>}
+                </>
+                    
+                )
+                }
             </Body>
         </>
     );
