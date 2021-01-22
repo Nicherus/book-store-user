@@ -6,21 +6,27 @@ import CartContext from '../contexts/CartContext';
 
 export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
-    const {content} = props;
-    const {cartItems, setCartItems} = useContext(CartContext);
-    console.log(cartItems);
+    const {content, setTotal} = props;
+    const {cartItems, setCartItems, total, cart, setCart} = useContext(CartContext);
     
     function addBook(){
         const newqtt = qtt + 1;
         setQtt(newqtt);
+        const aux = total + (content.price)/100;
+        setTotal(aux);
     }
 
     function subtractBook(){
         const newqtt = qtt - 1;
-        if(newqtt == 0){
-            
+        let c;
+        if(newqtt === 0){
+            const i = cartItems.findIndex(x => x.id === content.id);
+            c = cartItems.splice(i);
+            setCartItems(...c);
         }
         setQtt(newqtt);
+        const aux = total - (content.price)/100;
+        setTotal(aux);
     }
 
     return(
@@ -43,7 +49,7 @@ export default function CartComponent(props){
                     </ProductInformation>
             </ProductContent>
             <Price>
-                <p>{`R$${content.price}`}</p>
+                <p>{`R$${(content.price)/100}`}</p>
             </Price>
         </Container>
     );

@@ -13,7 +13,6 @@ export default function Products(){
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
     const history = useHistory();
-    console.log(categorieId);
 
     useEffect(() => {
         setLoading(true);
