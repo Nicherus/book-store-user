@@ -6,8 +6,7 @@ import {IoIosArrowForward} from 'react-icons/io';
 import colors from './colors';
 
 export default function Gallery(props){
-    const {photos, setPhotos, bigPhoto, setBigPhoto} = props; 
-    console.log(photos);     
+    const {photos, setPhotos, bigPhoto, setBigPhoto} = props;      
 
     function nextPhoto(){
         const newOrder = photos.slice(1,photos.length);

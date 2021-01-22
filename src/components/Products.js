@@ -11,6 +11,7 @@ import colors from './colors';
 export default function Products(){
     const { categorieId } = useContext(CategorieContext);
     const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -18,7 +19,6 @@ export default function Products(){
         if (categorieId !== 0){
             const request = axios.get(`https://api-book-store.herokuapp.com/products/category/${categorieId}`);
             request.then( resp => {
-                console.log(resp.data.products[0].photos[0].link);
                 setBooks(resp.data.products);
                 setLoading(false);
             }).catch( error => {

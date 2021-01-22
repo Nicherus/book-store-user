@@ -4,6 +4,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import Header from '../components/Header';
+import PreviousPageArrow from '../components/PreviousPageArrow';
 import Gallery from '../components/Gallery';
 import Information from '../components/Information';
 
@@ -27,6 +28,7 @@ export default function Product(){
     return(
         <>
             <Header />
+            <PreviousPageArrow previousPage='/' />
             <Container>
                 <Gallery    photos={photos} 
                             setPhotos={setPhotos} 

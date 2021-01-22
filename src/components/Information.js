@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import colors from './colors';
@@ -6,6 +6,12 @@ import colors from './colors';
 export default function Information(props){
     const {product} = props;
     const price = ((product.price)/100).toFixed(2);
+    const [enable, setEnable] = useState(true);
+    
+    if (product.amountStock === 0){
+        setEnable(false);
+    }
+
     return(
         <Container>
             {Object.keys(product).length !== 0 ? 
@@ -43,7 +49,7 @@ export default function Information(props){
                 <label>Disponível:</label>
                 <h2>{product.amountStock}</h2>
             </div>
-            <button>Adicionar ao carrinho</button> 
+            <button className={!enable ? 'disabled' : undefined} disabled={!enable} onClick={() => console.log('teste')}>Adicionar ao carrinho</button> 
             </>
             :
             <Load>
@@ -107,6 +113,10 @@ const Container = styled.section`
     }
     button:hover{
         background: lightblue;
+        color: ${colors.black};
+    }
+    .disabled,.disabled:hover{
+        background-color: rgba(255,0,0,0.1);
         color: ${colors.black};
     }
     
