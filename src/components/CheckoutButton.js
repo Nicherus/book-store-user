@@ -30,5 +30,4 @@ const Container = styled.button`
     text-align: center;
     position: fixed;
     bottom:0;
-
 `;

@@ -41,7 +41,7 @@ export default function ChoosePaymentMethod(){
             console.log(body);
         axios.post('https://api-book-store.herokuapp.com/clients', body)
           .then(function (response) {
-            console.log(response);
+            console.log(response.data);
           }).catch((error) => console.log(error));
 
     }

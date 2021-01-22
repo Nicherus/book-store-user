@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 import axios from "axios";
+import colors from '../components/colors';
 
 import Header from '../components/Header';
-import CheckoutButton from '../components/CheckoutButton';
 import UserContext from "../contexts/UserContext";
 
 export default function checkOut(){
@@ -98,7 +98,7 @@ export default function checkOut(){
                         <Input placeholder={"Número"} onChange={(e) => setNumber(e.target.value)}/>
                         <Input placeholder={"Complemento"} onChange={(e) => setComplement(e.target.value)}/>
                     </AdressContainer>
-                    <CheckoutButton content={"Escolher pagamento"} onClick={handleSubmit} loading={loading} />
+                    <Button onClick={handleSubmit} loading={loading}>Escolher pagamento</Button>
                 </CheckoutBody>
             </Form>
         </>
@@ -139,4 +139,14 @@ const Input = styled.input`
 
 const Form = styled.form`
 
+`;
+
+const Button = styled.button`
+    width: 71%;
+    height: 70px;
+    background: ${colors.black};
+    margin: 20px 20px;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
 `;
