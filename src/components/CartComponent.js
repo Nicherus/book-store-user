@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
 
 import colors from './colors';
 import CartContext from '../contexts/CartContext';
@@ -8,6 +9,8 @@ export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
     const {content, setTotal} = props;
     const {cartItems, setCartItems, total, cart, setCart} = useContext(CartContext);
+    const history = useHistory();
+
     
     function addBook(){
         const newqtt = qtt + 1;
@@ -34,14 +37,18 @@ export default function CartComponent(props){
         cart[i].amount--;
     }
 
+    function selectProduct(id){
+        history.push(`/product/${id}`);
+    }
+    
     return(
         <Container>
             <ProductContent>
-                <button>            
+                <button onClick={() => selectProduct(content.id)}>            
                     <BookImage src="https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg" />
                 </button>
                     <ProductInformation>
-                        <button>
+                        <button onClick={() => selectProduct(content.id)}>
                             <p>{`${content.name}`}</p>
                         </button>
                         <QuantityContainer>

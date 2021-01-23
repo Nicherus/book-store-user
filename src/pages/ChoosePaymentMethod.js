@@ -13,7 +13,7 @@ import { FiChevronsRight } from "react-icons/fi";
 
 export default function ChoosePaymentMethod(){
     const { user, setUser } = useContext(UserContext);
-    const { cartItems, setCartItems } = useContext(CartContext);
+    const { cartItems, total, cart } = useContext(CartContext);
     const [billetChoice, setBilletChoice] = useState(false);
     const [paymentChoice, setPaymentChoice] = useState(false);
     const [creditCard, setCreditCard] = useState(false);
@@ -47,19 +47,19 @@ export default function ChoosePaymentMethod(){
         axios.post('https://api-book-store.herokuapp.com/clients', body)
           .then(function (response) {
                 finish(response.data);
-          }).catch(() => {
+          }).catch((e) => {
+              console.log(e);
               alert("Preencha os dados corretamente!");
               history.push('/checkout');
           });
     }
     function finish(data){
-        console.log(cartItems); 
         const productData = cartItems.map( c => {
             return ({productId:c.id, amount:c.amountStock});
         })       
         const body = {  clientId: data.id,
                         productData,
-                        totalPrice: 0}
+                        totalPrice: total}
         axios.post('https://api-book-store.herokuapp.com/orders', body)
             .then(function (response) {
                 if(response.status === 201){
