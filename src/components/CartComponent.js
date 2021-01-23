@@ -1,36 +1,54 @@
 import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
 
 import colors from './colors';
 import CartContext from '../contexts/CartContext';
 
 export default function CartComponent(props){
     const [qtt, setQtt] = useState(1);
-    const {content} = props;
-    const {cartItems, setCartItems} = useContext(CartContext);
-    console.log(cartItems);
+    const {content, setTotal} = props;
+    const {cartItems, setCartItems, total, cart, setCart} = useContext(CartContext);
+    const history = useHistory();
+
     
     function addBook(){
         const newqtt = qtt + 1;
         setQtt(newqtt);
+        const aux = total + (content.price)/100;
+        setTotal(aux);
+        const i = cart.findIndex(x => x.productId === content.id);
+        cart[i].amount++;
     }
 
     function subtractBook(){
         const newqtt = qtt - 1;
-        if(newqtt == 0){
-            
+        let c;
+        if(newqtt === 0){
+            const i = cartItems.findIndex(x => x.id === content.id);
+            cartItems.splice(i,1);
+            const x = cartItems;
+            setCartItems(x);
         }
         setQtt(newqtt);
+        const aux = total - (content.price)/100;
+        setTotal(aux);
+        const i = cart.findIndex(x => x.productId === content.id);
+        cart[i].amount--;
     }
 
+    function selectProduct(id){
+        history.push(`/product/${id}`);
+    }
+    
     return(
         <Container>
             <ProductContent>
-                <button>            
+                <button onClick={() => selectProduct(content.id)}>            
                     <BookImage src="https://a-static.mlcdn.com.br/618x463/livro-o-menino-do-dedo-verde-capa-dura/magazineluiza/222642600/3a4f71ae095c23460bf75b1c2e82a419.jpg" />
                 </button>
                     <ProductInformation>
-                        <button>
+                        <button onClick={() => selectProduct(content.id)}>
                             <p>{`${content.name}`}</p>
                         </button>
                         <QuantityContainer>
@@ -43,7 +61,7 @@ export default function CartComponent(props){
                     </ProductInformation>
             </ProductContent>
             <Price>
-                <p>{`R$${content.price}`}</p>
+                <p>{`R$${(content.price)/100}`}</p>
             </Price>
         </Container>
     );

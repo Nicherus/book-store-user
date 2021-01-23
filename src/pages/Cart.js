@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import styled from 'styled-components';
 
+import colors from '../components/colors';
+
 import Header from '../components/Header';
-import Button from '../components/Button';
 import CheckoutButton from '../components/CheckoutButton';
 import CartProducts from '../components/CartProducts';
+
 
 export default function Home(){
 
@@ -12,7 +14,6 @@ export default function Home(){
         <>
             <Header />
             <CartBody>
-                <Button content={"TOTAL"} />
                 <CartProducts/>
                 <CheckoutButton content={"FECHAR PEDIDO"} />
             </CartBody>
@@ -28,3 +29,4 @@ const CartBody = styled.div`
     width: 80%;
     margin: 150px auto;
 `;
+
