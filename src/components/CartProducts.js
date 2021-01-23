@@ -11,7 +11,6 @@ export default function CartProducts(props){
     let aux = 0;
     let productInfo = {};
     let products = [];
-    console.log(cartItems);
     useEffect(() => {
         if (cartItems.length > 0){
             cartItems.forEach(element => {
@@ -36,7 +35,7 @@ export default function CartProducts(props){
             :
             <>
                 {cartItems.map(i => {
-                    return (<CartComponent content={{name: i.name, price: i.price, stock: i.stock, qtt: i.qtt, id:i.id}} setTotal={setTotal}/>)
+                    return (<CartComponent key={key++} content={{name: i.name, price: i.price, stock: i.stock, qtt: i.qtt, id:i.id}} setTotal={setTotal}/>)
                 } 
                 )}
             </>

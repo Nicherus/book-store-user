@@ -112,6 +112,9 @@ const CheckoutBody = styled.div`
     flex-direction: column;
     width: 80%;
     margin: 150px auto 0 auto;
+    button{
+        position: inherit;
+    }
 `;
 
 const AdressContainer = styled.div`
