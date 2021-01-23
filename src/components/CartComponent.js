@@ -14,6 +14,8 @@ export default function CartComponent(props){
         setQtt(newqtt);
         const aux = total + (content.price)/100;
         setTotal(aux);
+        const i = cart.findIndex(x => x.productId === content.id);
+        cart[i].amount++;
     }
 
     function subtractBook(){
@@ -21,12 +23,15 @@ export default function CartComponent(props){
         let c;
         if(newqtt === 0){
             const i = cartItems.findIndex(x => x.id === content.id);
-            c = cartItems.splice(i);
-            setCartItems(...c);
+            cartItems.splice(i,1);
+            const x = cartItems;
+            setCartItems(x);
         }
         setQtt(newqtt);
         const aux = total - (content.price)/100;
         setTotal(aux);
+        const i = cart.findIndex(x => x.productId === content.id);
+        cart[i].amount--;
     }
 
     return(

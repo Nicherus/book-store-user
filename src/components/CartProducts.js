@@ -11,14 +11,14 @@ export default function CartProducts(props){
     let aux = 0;
     let productInfo = {};
     let products = [];
-    console.log(cart);
+    console.log(cartItems);
     useEffect(() => {
         if (cartItems.length > 0){
             cartItems.forEach(element => {
                 aux +=element.price;
                 productInfo = {
                     productId: element.id,
-                    amount: 1,
+                    amount: cart.lenght ? cart.amount : 1,
                     price: element.price
                 }
                 products.push(productInfo);
